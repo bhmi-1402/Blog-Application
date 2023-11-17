@@ -11,11 +11,9 @@ dotenv.config();
  app.use(cors());
  app.use(bodyParser.json({extended:true}))
  app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
- app.use('/',router);
+ app.use(cookieParser());
+ app.use(router);
  
-
-
 
  const PORT=9000;
  

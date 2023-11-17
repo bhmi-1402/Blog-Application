@@ -3,6 +3,7 @@
 const user= require('../model/user.js')
 
 const signupUser = async(request,response) =>{
+
 try {
     
     // const hashedPassword = await bcrypt.hash(request.body.password,10);
@@ -11,10 +12,13 @@ try {
     const newUser= new user(userr);
     await newUser.save();
 
-    return response.status(400).json({msg:'Signup successfull'})
+    return response.send("Success");
     
 } catch (error) {
-    return response.status(500).json({msg:"error while signing up user"})
+    return response.send({
+        error,
+        msg:"Error"
+    })
 }
 }
 module.exports=signupUser;

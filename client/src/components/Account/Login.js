@@ -1,7 +1,9 @@
 import React,{useState} from 'react'
 import {Box,Button,TextField,Typography,styled} from '@mui/material';
 // import {AP} from '../service/api'
-import {AP} from '../service/api';
+// import {AP} from '../service/api';
+import axios from 'axios';
+
 const Component=styled(Box)`
 width:400px;
 margin:auto;
@@ -56,7 +58,7 @@ const signupInitial={
 
 
 
-export const Login = () => {
+const Login = () => {
     const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png';
 const[account,toggleAccount] = useState('login');
 const[signup,setSignup]=useState(signupInitial);
@@ -68,14 +70,20 @@ const onInput=(e)=>{
     setSignup({...signup,[e.target.name]: e.target.value});
 }
 const signupUser = async() => {
-  let response= await AP.userSignup(signup);
+
+  // let response= await AP.userSignup(signup);
+  const url = "http://localhost:9000/signup";
+  const response= await axios.post(url,signup);
+  console.log(response);
+  
   if(response.isSuccess){
+    
     showError('');
     setSignup(signupInitial);
     toggleAccount('login');
   }
   else{
-showError('Something went wrong!Please try again');
+      showError('Something went wrong!Please try again');
   }
 }
   return (
