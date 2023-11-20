@@ -7,7 +7,8 @@ var bodyParser = require('body-parser');
 const connection=require('./database/db.js');
 const router= require('./routes/routes.js')
 dotenv.config();
- const app = express();
+const app = express();
+
  app.use(cors());
  app.use(bodyParser.json({extended:true}))
  app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,7 +19,7 @@ dotenv.config();
  const PORT=9000;
  
  connection(); 
- app.get("/",(req,res)=>{
+ app.post("/",(res,req)=>{
     res.send("munna is genius")
  })
 

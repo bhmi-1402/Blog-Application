@@ -49,6 +49,10 @@ margin-top:10px;
 font-weight;600;
 `
 
+const loginInitial={
+  username: '',
+    password:''
+}
 const signupInitial={
     name: '',
     username: '',
@@ -62,10 +66,9 @@ const Login = () => {
     const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png';
 const[account,toggleAccount] = useState('login');
 const[signup,setSignup]=useState(signupInitial);
+const[login,setLogin]=useState(loginInitial)
 const[error,showError]=useState('')
-const toggleSignup=()=>{
-    account==='signup'? toggleAccount('login'): toggleAccount('signup');
-}
+
 const onInput=(e)=>{
     setSignup({...signup,[e.target.name]: e.target.value});
 }
@@ -82,9 +85,28 @@ const signupUser = async() => {
     setSignup(signupInitial);
     toggleAccount('login');
   }
-  else{
+  else{ 
       showError('Something went wrong!Please try again');
   }
+}
+const onValueChange=(e)=>{
+setLogin({...login,[e.target.name]:e.target.value})
+}
+const loginUser=async()=>{
+  const url = "http://localhost:9000/login";
+  const response= await axios.post(url,login);
+  console.log(response);
+  if(response.isSuccess){
+    
+    showError('');
+    
+  }
+  else{ 
+      showError('Something went wrong!Please try again');
+  }
+}
+const toggleSignup=()=>{
+  account==='signup'? toggleAccount('login'): toggleAccount('signup');
 }
   return (
     
@@ -93,11 +115,11 @@ const signupUser = async() => {
         <Image src={imageURL}/>{
 account==='login'?
         <Wrapper>
-        <TextField variant="standard" label="Enter username"></TextField>
-        <TextField variant="standard" label="Enter password"></TextField>
-        { error && <Typography>{error}</Typography> }
-        
-        <LoginButton variant="contained">Login</LoginButton>
+        <TextField variant="standard" value={login.username} onChange={(e)=>onValueChange(e)}  name="username" label="Enter Username"></TextField>
+        <TextField variant="standard" value={login.password} onChange={(e)=>onValueChange(e)}  name="password" label="Enter Password"></TextField>
+        {/* { error && <Typography>{error}</Typography> } */}
+        { error && <Error>{error}</Error> }
+        <LoginButton variant="contained" onClick={()=>loginUser()}>Login</LoginButton>
         <SignupButton onClick={()=>toggleSignup()}>Create an account</SignupButton>
         </Wrapper>
         :
@@ -105,7 +127,7 @@ account==='login'?
         <TextField variant="standard" label="Enter Name" onChange={(e)=> onInput(e)} name='name'></TextField>
         <TextField variant="standard" label="Enter username" onChange={(e)=> onInput(e)} name='username'></TextField>
         <TextField variant="standard" label="Enter password" onChange={(e)=> onInput(e)} name='password'></TextField>
-       { error && <Typography>{error}</Typography> }
+     
         <SignupButton onClick={()=>signupUser()}>Signup</SignupButton>
         <LoginButton variant="contained" onClick={()=>toggleSignup()}>Already have an account</LoginButton>
         </Wrapper>

@@ -26,5 +26,6 @@ export const API={
 export const SERVICE={
     userSignup:{
         url:'/signup',method:'POST'
-    }
+    },
+    userLogin:{url:'/login',method:'POST'}
 }
